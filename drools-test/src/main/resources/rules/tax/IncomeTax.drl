@@ -1,0 +1,71 @@
+//created on: 2016-9-21
+package com.sample.drools
+
+import com.sample.drools.IncomeTaxTest.Income;
+
+function int getStart(){
+	return 3500;
+}
+ 
+rule "under_1500"
+	salience 70
+    when
+        m : Income( income > getStart() , income <= getStart()+1500 )
+    then
+        m.setTax( (m.getIncome() - getStart())* 0.03 );
+        m.setTaxed( m.getIncome() - m.getTax() );
+end
+
+rule "under_4500"
+	salience 60
+    when
+        m : Income( income > getStart()+1500 , income <= getStart()+4500 )
+    then
+        m.setTax( (m.getIncome() - getStart())* 0.10 - 105 );
+        m.setTaxed( m.getIncome() - m.getTax() );
+end
+
+rule "under_9000"
+	salience 50
+    when
+        m : Income( income > getStart()+4500 , income <= getStart()+9000 )
+    then
+        m.setTax( (m.getIncome() - getStart())* 0.20 - 555 );
+        m.setTaxed( m.getIncome() - m.getTax() );
+end
+
+rule "under_35000"
+	salience 40
+    when
+        m : Income( income > getStart()+9000 , income <= getStart()+35000 )
+    then
+        m.setTax( (m.getIncome() - getStart())* 0.25 - 1005 );
+        m.setTaxed( m.getIncome() - m.getTax() );
+end
+
+rule "under_55000"
+	salience 30
+    when
+        m : Income( income > getStart()+35000 , income <= getStart()+55000 )
+    then
+        m.setTax( (m.getIncome() - getStart())* 0.30 - 2755 );
+        m.setTaxed( m.getIncome() - m.getTax() );
+end
+
+rule "under_80000"
+	salience 20
+    when
+        m : Income( income > getStart()+55000 , income <= getStart()+80000 )
+    then
+        m.setTax( (m.getIncome() - getStart())* 0.35 - 5505 );
+        m.setTaxed( m.getIncome() - m.getTax() );
+end
+
+rule "over_80000"
+	salience 10
+    when
+        m : Income( income > getStart()+80000 )
+    then
+        m.setTax( (m.getIncome() - getStart())* 0.45 - 13505 );
+        m.setTaxed( m.getIncome() - m.getTax() );
+end

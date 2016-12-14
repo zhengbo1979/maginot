@@ -1,0 +1,63 @@
+package com.sample.drools
+ 
+import com.sample.drools.bean.Message;
+
+function void sysName(String name){
+	System.out.println( "My name is " + name );
+}
+
+rule "Country"
+	no-loop true
+	date-expires "30-sep-2016"
+    when
+        m : Message( message contains("杭州市"), myMessage : message )
+    then
+        System.out.println( "杭州市" );
+        sysName( "zhengbo" );
+        update( m );
+end
+
+rule "notCountry"
+	no-loop true
+	date-expires "30-sep-2016"
+    when
+        m : Message( message not contains("杭州市"), myMessage : message )
+    then
+        System.out.println( "我不在杭州市" );
+        sysName( "not zhengbo" );
+        update( m );
+end
+
+rule "FlagHello"
+    when
+        Message( status == Message.HELLO, flag == Message.HELLO, myMessage : message )
+    then
+        System.out.println( "flag is hello" );
+end
+
+rule "FlagGoodbye"
+    when
+        Message( status == Message.HELLO, flag == Message.GOODBYE, myMessage : message )
+    then
+        System.out.println( "flag is goodbye" );
+end
+
+rule "Hello World"
+	salience 1
+	date-effective "01-sep-2016"
+	enabled true
+    when
+        m : Message( status == Message.HELLO , flag == Message.HELLO , myMessage : message )
+    then
+        System.out.println( myMessage );
+        m.setMessage( "Goodbye cruel world" );
+        m.setStatus( Message.GOODBYE );
+        update( m );
+end
+
+rule "GoodBye"
+    when
+        Message( status == Message.GOODBYE, myMessage : message )
+    then
+        System.out.println( myMessage );
+end
