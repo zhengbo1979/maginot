@@ -14,7 +14,7 @@ import com.sample.roketmq.constant.RoketConstant;
  * This is a sample class to launch a rule.
  */
 public class DroolsTest {
-	private static int THREAD_COUNT = 1000;
+	private static int THREAD_COUNT = 100;
 	private int thread_ok_number = 0;
 
 	public void callback(long thread_ok_number, long startTime) {
